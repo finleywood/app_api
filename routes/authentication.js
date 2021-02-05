@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
+const jwt = require('jsonwebtoken');
 
 router.get('/login', (req, res, next) => {
     var username = req.query.username;
@@ -17,7 +18,8 @@ router.get('/login', (req, res, next) => {
             if (err) throw err;
             if(result.length > 0){
                 res.status(200);
-                res.json({msg: 'User found!', username: username});
+                const token = jwt.sign({username: username}, 'wXga4W8Z7MjqpiGVMyuPJnTdZ80xw9LR');
+                res.json({msg: 'User found!', username: username, token: token});
             }
             else{
                 res.status(401);
@@ -27,6 +29,7 @@ router.get('/login', (req, res, next) => {
         con.end();
     });
     res.status(500);
+    res.json({msg: "Internal server error!"});
 });
 
 module.exports = router;
