@@ -102,6 +102,7 @@ router.post('/create', auth, (req, res, next) => {
             if (err) throw err;
             var uid = result[0].id;
             var con2 = mysql.createConnection({
+                multipleStatements: true,
                 host: "151.236.216.100",
                 user: "app_db_admin",
                 password: "Kira2014!",
@@ -109,11 +110,12 @@ router.post('/create', auth, (req, res, next) => {
             });
             con2.connect((err) => {
                 if (err) throw err;
-                con2.query(`INSERT INTO notes (user_id, name, content) VALUES (${uid}, '${name}', '${content}')`, (err, result) => {
+                con2.query(`INSERT INTO notes (user_id, name, content) VALUES (${uid}, '${name}', '${content}');SELECT LAST_INSERT_ID()`, (err, result) => {
                     if (err) throw err;
                     else{
+                        var note_id = result[1][0].id;
                         res.status(201);
-                        res.json({msg: "Note Created Successfully!"});
+                        res.json({msg: "Note Created Successfully!", id: note_id});
                     }
                 });
                 con2.end();
@@ -188,8 +190,12 @@ router.put('/update', auth, (req, res, next) => {
                 con2.query(`UPDATE notes SET name='${name}',content='${content}' WHERE id=${note_id} AND user_id=${uid}`, (err, result) => {
                     if (err) throw err;
                     else{
+                        note = {
+                            name: req.body.name,
+                            content: req.body.content
+                        }
                         res.status(200);
-                        res.json({msg: "Note updated!"});
+                        res.json({msg: "Note updated!", note: note});
                     }
                 });
                 con2.end();
