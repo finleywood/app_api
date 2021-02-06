@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
       }
       else{
         res.status(401);
-        res.json({msg: "Access Denied, auth token incorrect!"});
+        res.json({msg: "Access Denied, auth token incorrect or username parameter incorrect!"});
       }
     }
     catch{

@@ -29,7 +29,6 @@ router.get('/login', (req, res, next) => {
         con.end();
     });
     res.status(500);
-    res.json({msg: "Internal server error!"});
 });
 
 module.exports = router;

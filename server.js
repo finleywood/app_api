@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 8000;
 const host = process.env.HOST || '127.0.0.1';
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/v1', require('./routes/v1'));
 app.use((req, res) => {
