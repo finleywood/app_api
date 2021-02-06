@@ -113,7 +113,7 @@ router.post('/create', auth, (req, res, next) => {
                 con2.query(`INSERT INTO notes (user_id, name, content) VALUES (${uid}, '${name}', '${content}');SELECT LAST_INSERT_ID()`, (err, result) => {
                     if (err) throw err;
                     else{
-                        var note_id = result[1][0].id;
+                        var note_id = result[0].insertId;
                         res.status(201);
                         res.json({msg: "Note Created Successfully!", id: note_id});
                     }
