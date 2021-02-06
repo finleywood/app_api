@@ -19,7 +19,10 @@ router.get('/login', (req, res, next) => {
             if(result.length > 0){
                 res.status(200);
                 const token = jwt.sign({username: username}, 'wXga4W8Z7MjqpiGVMyuPJnTdZ80xw9LR');
-                res.json({msg: 'User found!', username: username, token: token});
+                const fname = result[0].fname;
+                const lname = result[0].lname;
+                const email = result[0].email;
+                res.json({msg: 'User found!', username: username, fname: fname, lname: lname, email: email, token: token});
             }
             else{
                 res.status(401);
