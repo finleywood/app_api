@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
   if(req.headers.authorization){
     const token = req.headers.authorization.split(' ')[1];
     try{
-      const decodedToken = jwt.verify(token, 'wXga4W8Z7MjqpiGVMyuPJnTdZ80xw9LR');
+      const decodedToken = jwt.verify(token, 'SECRET KEY GOES HERE');
       if(decodedToken.username == req.query.username){
         next();
       }
